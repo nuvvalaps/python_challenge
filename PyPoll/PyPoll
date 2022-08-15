@@ -1,0 +1,61 @@
+import os
+import csv
+
+csvpath = os.path.join('Resources', 'election_data.csv')
+
+with open(csvpath) as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=',')
+    
+    csv_header = next(csvfile)
+
+    row = 0
+    total_votes = 0
+    candidates_count = 0
+    candidates_list = []
+    voter_id = []
+    individual_votes = {}
+    each_vote = []
+    individual_vote_count = 0
+    winner = ''
+
+    for x in csvreader:
+        row = row + 1
+        # Calculate the total number of months in the dataset
+        if x[2] not in candidates_list:
+            candidates_list.append(x[2])
+            candidates_count = candidates_count + 1
+        # Calculate the total number of votes cast
+        total_votes = row
+        # Calculate the number of votes for each candidate
+        each_vote.append(x[2])
+    for candidate in candidates_list:
+        individual_vote_count = each_vote.count(candidate)
+        individual_votes["{0}".format(candidate)] = individual_vote_count
+        # Calculate the winner of the election!
+        winner = max(individual_votes, key = individual_votes.get)
+
+    # Print results to terminal
+    print(f"Election Results")
+    print(f"-------------------------")
+    print(f"Total Votes Cast: {total_votes}")
+    print(f"-------------------------")
+    print(f"Votes per Candidate:")
+    for candidate in individual_votes: 
+        print(f"{candidate}: {individual_votes[candidate]} ({round(individual_votes[candidate]/total_votes*100,2)}%)")
+    print(f"-------------------------")
+    print(f"Winner: {winner}")
+
+
+    # Export Results to Txt File
+    output_path = os.path.join('Analysis', 'election_results.txt')
+    output_results = open(output_path, 'w')
+    output_results.write(f"Election Results \n")
+    output_results.write(f"------------------------- \n")
+    output_results.write(f"Total Votes Cast: {total_votes} \n")
+    output_results.write(f"------------------------- \n")
+    output_results.write(f"Votes per Candidate: \n")
+    for candidate in individual_votes: 
+        output_results.write(f"{candidate}: {individual_votes[candidate]} ({round(individual_votes[candidate]/total_votes*100,2)}%) \n")
+    output_results.write(f"------------------------- \n")
+    output_results.write(f"Winner: {winner}")
+    output_results.close()

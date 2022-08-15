@@ -1,0 +1,6 @@
+Financial Analysis 
+Total Months: 86 
+Net Profit/Loss: $22564198 
+Average Daily Change: $4448.13 
+Greatest Daily Profit: Mar-13 ($1141840) 
+Greatest Daily Loss: Dec-10 ($-1194133) 
